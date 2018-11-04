@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<style>
+			body {
+				background-color: yellow;
+			}
+			h1{
+				position: absolute;
+				top:70px;
+				left:570px;
+			}
+			form {
+				background-color: cyan;
+				padding: 50px;
+				position: absolute;
+				top:150px;
+				left: 470px;
+			}
+			button{
+				position: relative;
+				left:70px;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Log in</h1>
+		<form action="http://localhost:5000/sign" method="post">
+			<p><input type="text" name="user" placeholder="Enter your username" required></p>
+			<p><input type="password" name="pass" placeholder="Enter your password" required></p>
+			<p><button type="submit" name="submit">Login</button></p>
+		</form>
+	</body>
+</html>
