@@ -23,6 +23,55 @@ def home():
 	if g.user == None:
 		return render_template('sign.html')
 	return render_template('home.html')
+
+@app.route('/see')
+def see():
+	if g.user == None:
+		return render_template('sign.html')
+	cursor = db.cursor()
+	cursor.execute("SELECT * FROM cab")
+	row = cursor.fetchall()
+	return render_template('see.html', row = row, j = session['j'])
+
+@app.route('/more')
+def more():
+	session['j'] = session['j'] + 10
+	return redirect(url_for('see'))
+
+@app.route('/less')
+def less():
+	session['j'] = session['j'] - 10
+	return redirect(url_for('see'))
+
+@app.route('/mypost')
+def mypost():
+	if g.user == None:
+		return render_template('sign.html')
+	cursor = db.cursor()
+	cursor.execute("SELECT * FROM cab WHERE username = %s",g.user)
+	row = cursor.fetchall()
+	return render_template('mypost.html',row = row)
+
+@app.route('/search')
+def search():
+	if g.user == None:
+		return render_template('sign.html')
+	return render_template('search.html')
+
+@app.route('/find',methods=['POST','GET'])
+def find():
+	if g.user == None:
+		return render_template('sign.html')
+	if request.method == 'POST':
+		start = request.form['start']
+		end = request.form['end']
+		date = request.form['date']
+		time = request.form['time']
+		cursor = db.cursor()
+		cursor.execute("SELECT * FROM cab WHERE (start,final,day) = (%s,%s,%s)",(start,end,date))
+		row = cursor.fetchall()
+		return render_template('find.html',row=row)
+
 @app.route('/login',methods = ['POST','GET'])
 def login():
 	if request.method == 'POST':
@@ -43,8 +92,8 @@ def login():
 					session['user'] = request.form['user']
 					session['name'] = request.form['na']
 					session['email'] = request.form['email']
+					session['j'] = 0
 					cursor.execute("INSERT INTO user(name,username,email,password) VALUES(%s, %s, %s, %s)",(na,user,email,pword))
-					cursor.execute("INSERT INTO cab(username) VALUES(%s)",(user))
 					cursor.connection.commit()
 					cursor.close()
 					return redirect(url_for('protected'))
@@ -58,7 +107,7 @@ def protected():
 		return redirect(url_for('sign'))
 	return render_template('home.html')
 
-@app.route('/sign',methods= ['POST','GET'])
+@app.route('/sign',methods=['POST','GET'])
 def sign():
 	if request.method == 'POST':
 		session.pop('user', None)
@@ -75,6 +124,7 @@ def sign():
 				session['user'] = request.form['user']
 				session['name'] = row['name']
 				session['email'] = row['email']
+				session['j'] = 0
 				return redirect(url_for('protected'))
 			else:
 				return '%s is Incorrect password' % pword
@@ -82,7 +132,7 @@ def sign():
 			return 'Username %s does not exist' % user
 	return render_template('sign.html')
 
-@app.route('/cabadd')
+@app.route('/cabadd',methods=['POST','GET'])
 def cabadd():
 	if request.method == 'POST':
 		user = session['user']
@@ -92,7 +142,7 @@ def cabadd():
 		time = request.form['time']
 		number = request.form['num']
 		cursor = db.cursor()
-		cursor.execute("INSERT INTO cab(contact) VALUES(%d) WHERE username = %s",(number), user)
+		cursor.execute("INSERT INTO cab(username,start,final,day,hour,contact) VALUES(%s,%s,%s,%s,%s,%s)",(user,start,end,date,time,number))
 		cursor.connection.commit()
 		cursor.close()
 	return redirect(url_for("add"))

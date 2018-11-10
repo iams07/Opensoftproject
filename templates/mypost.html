@@ -39,16 +39,16 @@
 				height: 50px;
 				padding: 20px;
 			}
-			#see{
-				position: fixed;
-				left:68%;
-				height: 50px;
-				padding: 20px;
-			}
 			#addcab{
 				position: fixed;
 				left: 28%;
 				height: 50px;
+				padding: 20px;
+			}
+			#see{
+				position: fixed;
+				left:68%;
+				height:50px;
 				padding: 20px;
 			}
 			#search{
@@ -57,16 +57,19 @@
 				height: 50px;
 				padding: 20px;
 			}
-			form{
+			#div1{
 				position: absolute;
-				top:200px;
-				left:300px;
+				top:100px;
+				left:100px;
+			}
+			hr{
+				width:100%;
 			}
 		</style>
 	</head>
 	<body>
 		<div id="bar">
-			<h1>Add new post</h1>
+			<h1>My posts</h1>
 		</div>
 		<div id="home"><a href="/home">Profile</a></div>
 		<div id="mypost"><a href="/mypost">My posts</a></div>
@@ -74,25 +77,18 @@
 		<div id="see"><a href="/see">See all posts</a></div>
 		<div id="search"><a href="/search">Search posts</a></div>
 		<div id="logout"><a href="/logout">Logout</a></div>
-		<form action="http://localhost:5000/cabadd" method="post">
-			<p>Starting point:
-			<select name="start" required>
-				<option value="Kgp Campus">Kgp Campus</option>
-				<option value="Kgp railway station">Kgp railway station</option>
-				<option value="Howrah Junction">Howrah junction</option>
-				<option value="Kolkata Airport">Kolkata Airport</option>
-			</select></p>
-			<p>Ending point:
-			<select name="end" required>
-				<option value="Kgp Campus">Kgp Campus</option>
-				<option value="Kgp railway station">Kgp railway station</option>
-				<option value="Howrah Junction">Howrah junction</option>
-				<option value="Kolkata Airport">Kolkata Airport</option>
-			</select></p>
-			<p>Journey date:<input type="date" name="date" required></p>
-			<p>Time of departure:<input type="time" name="time" required></p>
-			<p>Contact no:<input type="number" name="num" required></p>
-			<p><button type="submit" name="submit">Submit</button></p>
-		</form>
+		<div id="div1">
+			{% for i in range(10): %}
+			{% if row[i]: %}
+			<p>Start point: {{ row[i]['start'] }}</p>
+			<p>Destination: {{ row[i]['final'] }}</p>
+			<p>Day of travel: {{ row[i]['day'] }}</p>
+			<p>Time of travel: {{ row[i]['hour'] }}</p>
+			<p>Contact number: {{ row[i]['contact'] }}</p>
+			<p>Username: {{ row[i]['username'] }}</p>
+			<hr>
+			{% endif %}
+			{% endfor %}
+		</div>
 	</body>
 </html>

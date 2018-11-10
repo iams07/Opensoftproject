@@ -31,15 +31,33 @@
 			a{
 				color:white;
 			}
-			#addcab{
+			#home{
 				position: fixed;
-				left:70%;
+				left:7%;
 				height: 50px;
 				padding: 20px;
 			}
-			#searchcab{
+			#mypost{
 				position: fixed;
-				left: 78%;
+				left: 17%;
+				height: 50px;
+				padding: 20px;
+			}
+			#see{
+				position: fixed;
+				left:68%;
+				height: 50px;
+				padding: 20px;
+			}
+			#addcab{
+				position: fixed;
+				left: 28%;
+				height: 50px;
+				padding: 20px;
+			}
+			#search{
+				position: fixed;
+				left:78%;
 				height: 50px;
 				padding: 20px;
 			}
@@ -49,8 +67,11 @@
 		<div id="bar">
 			<h1>Profile</h1>
 		</div>
-		<div id="addcab"><a href="/add">Add slot</a></div>
-		<div id="searchcab"><a href="#">See other posts</a></div>
+		<div id="home"><a href="/home">Profile</a></div>
+		<div id="mypost"><a href="/mypost">My posts</a></div>
+		<div id="addcab"><a href="/add">Add post</a></div>
+		<div id="see"><a href="/see">See all posts</a></div>
+		<div id="search"><a href="/search">Search posts</a></div>
 		<div id="logout"><a href="/logout">Logout</a></div>
 		<div id="pro">
 			<p>Name: {{ g.name }}</p>
